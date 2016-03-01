@@ -15,10 +15,18 @@ namespace JobsPortalDotNet.Controllers
         //
         // GET: /Empleos/
 
-        public ActionResult Index()
+        public ActionResult Index(int page=0)
         {
-            var empleos = db.empleos.Include(e => e.categoria1).Include(e => e.usuario);
-            return View(empleos.ToList());
+           /* const int PageSize = 5;
+
+            var count = this.db.empleos.Count();
+            var empleos = this.db.empleos.Skip(page * PageSize).Take(PageSize).ToList();
+
+            this.ViewBag.MaxPage = (count / PageSize) - (count % PageSize ==0 ? 1 : 0);
+            this.ViewBag.Page = page;*/
+
+            var empleos = db.empleos.Include(e => e.categoria1).Include(e => e.usuario).ToList();
+            return View(empleos);
         }
 
         //
