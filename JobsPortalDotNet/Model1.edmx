@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="proyecto_empleosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="categorias">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="empleos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="titulo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="categoria" Type="int" Nullable="false" />
+          <Property Name="sueldo" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="published_by" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="telefono" Type="nchar" MaxLength="15" />
+          <Property Name="correo" Type="nvarchar" MaxLength="100" />
+          <Property Name="website" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_categoria_empleo">
+          <End Role="categorias" Type="Self.categorias" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="empleos" Type="Self.empleos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categorias">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="empleos">
+              <PropertyRef Name="categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_published_by">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="empleos" Type="Self.empleos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="empleos">
+              <PropertyRef Name="published_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="proyecto_empleosModelStoreContainer">
+          <EntitySet Name="categorias" EntityType="Self.categorias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="empleos" EntityType="Self.empleos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_categoria_empleo" Association="Self.FK_categoria_empleo">
+            <End Role="categorias" EntitySet="categorias" />
+            <End Role="empleos" EntitySet="empleos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_published_by" Association="Self.FK_published_by">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="empleos" EntitySet="empleos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="proyecto_empleosModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityType Name="categoria">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="empleos" Relationship="Self.FK_categoria_empleo" FromRole="categorias" ToRole="empleos" />
+        </EntityType>
+        <EntityType Name="empleo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="titulo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="categoria" Type="Int32" Nullable="false" />
+          <Property Name="sueldo" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="published_by" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="categoria1" Relationship="Self.FK_categoria_empleo" FromRole="empleos" ToRole="categorias" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_published_by" FromRole="empleos" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="empleos" Relationship="Self.FK_published_by" FromRole="usuarios" ToRole="empleos" />
+        </EntityType>
+        <Association Name="FK_categoria_empleo">
+          <End Role="categorias" Type="Self.categoria" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="empleos" Type="Self.empleo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categorias">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="empleos">
+              <PropertyRef Name="categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_published_by">
+          <End Role="usuarios" Type="Self.usuario" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="empleos" Type="Self.empleo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="empleos">
+              <PropertyRef Name="published_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="proyecto_empleosEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categorias" EntityType="Self.categoria" />
+          <EntitySet Name="empleos" EntityType="Self.empleo" />
+          <EntitySet Name="usuarios" EntityType="Self.usuario" />
+          <AssociationSet Name="FK_categoria_empleo" Association="Self.FK_categoria_empleo">
+            <End Role="categorias" EntitySet="categorias" />
+            <End Role="empleos" EntitySet="empleos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_published_by" Association="Self.FK_published_by">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="empleos" EntitySet="empleos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="proyecto_empleosModelStoreContainer" CdmEntityContainer="proyecto_empleosEntities1">
+          <EntitySetMapping Name="categorias">
+            <EntityTypeMapping TypeName="proyecto_empleosModel.categoria">
+              <MappingFragment StoreEntitySet="categorias">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="empleos">
+            <EntityTypeMapping TypeName="proyecto_empleosModel.empleo">
+              <MappingFragment StoreEntitySet="empleos">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="sueldo" ColumnName="sueldo" />
+                <ScalarProperty Name="published_by" ColumnName="published_by" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuarios">
+            <EntityTypeMapping TypeName="proyecto_empleosModel.usuario">
+              <MappingFragment StoreEntitySet="usuarios">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="website" ColumnName="website" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

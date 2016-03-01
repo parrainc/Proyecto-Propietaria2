@@ -1,0 +1,70 @@
+﻿@model JobsPortalDotNet.empleo
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>empleo</legend>
+
+        @Html.HiddenFor(model => model.id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.titulo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.titulo)
+            @Html.ValidationMessageFor(model => model.titulo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.descripcion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.descripcion)
+            @Html.ValidationMessageFor(model => model.descripcion)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.categoria, "categoria1")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("categoria", String.Empty)
+            @Html.ValidationMessageFor(model => model.categoria)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.sueldo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.sueldo)
+            @Html.ValidationMessageFor(model => model.sueldo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.published_by, "usuario")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("published_by", String.Empty)
+            @Html.ValidationMessageFor(model => model.published_by)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

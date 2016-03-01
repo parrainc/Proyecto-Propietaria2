@@ -83,6 +83,11 @@ hr.star-primary:after {
     margin: 0 auto;
 }
 
+header.bg-color{
+    color: #2c3e50;
+    background: #fff;
+}
+
 header {
     text-align: center;
     color: #fff;

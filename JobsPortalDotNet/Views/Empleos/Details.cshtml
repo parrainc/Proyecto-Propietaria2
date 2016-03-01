@@ -1,0 +1,50 @@
+﻿@model JobsPortalDotNet.empleo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>empleo</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.titulo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.titulo)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.descripcion)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.descripcion)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.categoria1.descripcion)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.categoria1.descripcion)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.sueldo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.sueldo)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.usuario.nombre)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.usuario.nombre)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
